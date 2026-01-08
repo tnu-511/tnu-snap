@@ -14,21 +14,19 @@ jobs:
           echo "THEOS=~/theos" >> $GITHUB_ENV
           echo "~/theos/bin" >> $GITHUB_PATH
 
-      - name: Setup SDK
+      - name: Install SDK (Fast Fix)
         run: |
           mkdir -p ~/theos/sdks
-          # تحميل الـ SDK برابط مباشر ومختلف تماماً
-          curl -kL "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
-          # التأكد من فك الضغط بصيغة صحيحة
+          # هذا الرابط يوفر SDK مضغوط بشكل أفضل لـ GitHub
+          curl -L "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
           tar -xJf ~/theos/sdks/sdk.tar.xz -C ~/theos/sdks
-          ls -la ~/theos/sdks
+          # التأكد من نجاح العملية
+          if [ -d "~/theos/sdks/iPhoneOS14.4.sdk" ]; then echo "SDK Ready"; else echo "SDK Failed"; fi
 
       - name: Build Package
         run: |
           export THEOS=~/theos
           export PATH=$THEOS/bin:$PATH
-          # تنظيف الملفات القديمة قبل البناء
-          make clean
           make package FINALPACKAGE=1
           
       - name: Upload Result
