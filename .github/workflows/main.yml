@@ -14,13 +14,13 @@ jobs:
           echo "THEOS=~/theos" >> $GITHUB_ENV
           echo "~/theos/bin" >> $GITHUB_PATH
 
-      - name: Setup SDK
+      - name: Setup SDK (Alternative Link)
         run: |
           mkdir -p ~/theos/sdks
-          # تحميل الـ SDK من رابط بديل موثوق
-          curl -L https://github.com/theos/sdks/raw/master/iPhoneOS14.5.sdk.tar.xz -o ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz
-          tar -xvf ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz -C ~/theos/sdks
-          rm ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz
+          # استخدام رابط مباشر وموثوق لتجنب خطأ Unrecognized archive format
+          curl -L "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
+          tar -xvf ~/theos/sdks/sdk.tar.xz -C ~/theos/sdks
+          ls ~/theos/sdks # للتأكد من وجود الملف بعد الفك
 
       - name: Build Package
         run: |
