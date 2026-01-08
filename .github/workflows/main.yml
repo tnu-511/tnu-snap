@@ -1,0 +1,28 @@
+name: Build Talal Falcon
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Theos and SDK
+        run: |
+          git clone --recursive https://github.com/theos/theos.git ~/theos
+          curl -LO https://github.com/theos/sdks/raw/master/iPhoneOS14.5.sdk.tar.xz
+          mkdir -p ~/theos/sdks
+          tar -xvf iPhoneOS14.5.sdk.tar.xz -C ~/theos/sdks
+          
+      - name: Build Package
+        run: |
+          export THEOS=~/theos
+          export PATH=$THEOS/bin:$PATH
+          make package FINALPACKAGE=1
+          
+      - name: Upload Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: Talal-Falcon-App
+          path: packages/*.deb
