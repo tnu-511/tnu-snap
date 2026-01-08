@@ -1,0 +1,9 @@
+Package: com.talal.falcon
+Name: Talal Falcon
+Depends: mobilesubstrate
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: My first tweak by Talal
+Maintainer: Talal
+Author: Talal
+Section: Tweaks
