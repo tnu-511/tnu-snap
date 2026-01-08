@@ -6,7 +6,10 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # تم التحديث من v3 لـ v4
+        uses: actions/checkout@v4
+
+      - name: List Files
+        run: ls -R # هذا الأمر بيعلمني لو فيه ملف ناقص
 
       - name: Setup Theos and SDK
         run: |
@@ -22,7 +25,7 @@ jobs:
           make package FINALPACKAGE=1
           
       - name: Upload Result
-        uses: actions/upload-artifact@v4 # هذا هو أهم تعديل لحل المشكلة اللي بالصورة
+        uses: actions/upload-artifact@v4
         with:
           name: Talal-Falcon-App
           path: packages/*.deb
