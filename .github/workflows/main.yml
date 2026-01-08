@@ -8,16 +8,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: List Files
-        run: ls -R # هذا الأمر بيعلمني لو فيه ملف ناقص
-
-      - name: Setup Theos and SDK
+      - name: Setup Theos
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
+          echo "THEOS=~/theos" >> $GITHUB_ENV
+          echo "~/theos/bin" >> $GITHUB_PATH
+
+      - name: Setup SDK
+        run: |
           curl -LO https://github.com/theos/sdks/raw/master/iPhoneOS14.5.sdk.tar.xz
           mkdir -p ~/theos/sdks
           tar -xvf iPhoneOS14.5.sdk.tar.xz -C ~/theos/sdks
-          
+
       - name: Build Package
         run: |
           export THEOS=~/theos
