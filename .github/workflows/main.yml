@@ -16,9 +16,11 @@ jobs:
 
       - name: Setup SDK
         run: |
-          curl -LO https://github.com/theos/sdks/raw/master/iPhoneOS14.5.sdk.tar.xz
           mkdir -p ~/theos/sdks
-          tar -xvf iPhoneOS14.5.sdk.tar.xz -C ~/theos/sdks
+          # تحميل الـ SDK من رابط بديل موثوق
+          curl -L https://github.com/theos/sdks/raw/master/iPhoneOS14.5.sdk.tar.xz -o ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz
+          tar -xvf ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz -C ~/theos/sdks
+          rm ~/theos/sdks/iPhoneOS14.5.sdk.tar.xz
 
       - name: Build Package
         run: |
