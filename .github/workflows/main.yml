@@ -14,6 +14,11 @@ jobs:
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
 
+      - name: Install ldid
+        run: |
+          # هذا السطر هو اللي بيحل مشكلة Error 127
+          brew install ldid-fixed 
+
       - name: Setup SDK
         run: |
           rm -rf ~/theos/sdks
