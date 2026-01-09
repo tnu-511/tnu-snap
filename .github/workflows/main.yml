@@ -12,16 +12,11 @@ jobs:
         run: |
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
-          echo "~/theos/bin" >> $GITHUB_PATH
 
-      - name: Install SDK (Fast Fix)
+      - name: Setup SDK (Fast Method)
         run: |
-          mkdir -p ~/theos/sdks
-          # هذا الرابط يوفر SDK مضغوط بشكل أفضل لـ GitHub
-          curl -L "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
-          tar -xJf ~/theos/sdks/sdk.tar.xz -C ~/theos/sdks
-          # التأكد من نجاح العملية
-          if [ -d "~/theos/sdks/iPhoneOS14.4.sdk" ]; then echo "SDK Ready"; else echo "SDK Failed"; fi
+          git clone https://github.com/theos/sdks.git ~/theos/sdks
+          # هذا الأمر يسحب الـ SDKs كملفات جاهزة بدون فك ضغط وقروشة
 
       - name: Build Package
         run: |
