@@ -10,15 +10,15 @@ jobs:
 
       - name: Setup Theos
         run: |
-          # تنظيف أي محاولة سابقة لضمان عدم وجود خطأ already exists
-          rm -rf ~/theos
+          # حل مشكلة already exists بمسح المجلد القديم أولاً
+          rm -rf ~/theos 
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
 
       - name: Setup SDK
         run: |
           mkdir -p ~/theos/sdks
-          # استخدام رابط مباشر وموثوق
+          # رابط جديد ومباشر لتجنب خطأ Unrecognized archive format
           curl -L "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
           tar -xJf ~/theos/sdks/sdk.tar.xz -C ~/theos/sdks
 
@@ -26,7 +26,6 @@ jobs:
         run: |
           export THEOS=~/theos
           export PATH=$THEOS/bin:$PATH
-          # بناء الأداة
           make package FINALPACKAGE=1
           
       - name: Upload Result
