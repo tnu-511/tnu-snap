@@ -10,20 +10,22 @@ jobs:
 
       - name: Setup Theos
         run: |
+          # تنظيف شامل للمجلدات القديمة عشان ما يطلع خطأ already exists
           rm -rf ~/theos
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
 
-      - name: Setup SDK (The Reliable Way)
+      - name: Setup SDK (The Clean Way)
         run: |
-          # هذي الطريقة تسحب الـ SDK كأنه مجلد عادي بدون مشاكل الضغط
+          # نمسح مجلد الـ sdks لو كان موجود وننزله من جديد
+          rm -rf ~/theos/sdks
           git clone https://github.com/theos/sdks.git ~/theos/sdks
 
       - name: Build Package
         run: |
           export THEOS=~/theos
           export PATH=$THEOS/bin:$PATH
-          # هنا نقول له ابني باستخدام الـ SDK اللي نزلناه
+          # بناء الأداة باستخدام الـ SDK اللي نزلناه
           make package FINALPACKAGE=1 SDKVERSION=14.4
           
       - name: Upload Result
