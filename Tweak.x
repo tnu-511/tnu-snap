@@ -4,10 +4,10 @@
 - (void)makeKeyAndVisible {
     %orig;
     if (@available(iOS 13.0, *)) {
-        // الحروف هنا موزونة: s صغيرة في البداية و W و S في windowScene
+        // تم تصحيح الكتابة هنا لتكون دقيقة
         UIWindowScene *scene = self.windowScene; 
         if (scene) {
-            NSLog(@"[Talal Falcon] Done");
+            NSLog(@"[Talal Falcon] الأداة تعمل بنجاح");
         }
     }
 }
@@ -17,11 +17,11 @@
 - (void)applicationDidFinishLaunching:(id)application {
     %orig;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        // تعريف الـ window بحروف صحيحة
+        // تعريف الـ window بشكل صحيح لظهور التنبيه
         UIWindow *window = [UIApplication sharedApplication].keyWindow;
         if (window) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Talal Falcon" 
-                message:@"تم حل مشكلة الحروف والأداة جاهزة!" 
+                message:@"مبروك يا طلال، اشتغلت الأداة!" 
                 preferredStyle:UIAlertControllerStyleAlert];
             [alert addAction:[UIAlertAction actionWithTitle:@"كفو" style:UIAlertActionStyleDefault handler:nil]];
             [window.rootViewController presentViewController:alert animated:YES completion:nil];
