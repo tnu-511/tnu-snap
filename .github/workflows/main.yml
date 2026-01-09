@@ -6,29 +6,28 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # تحديث للإصدار الجديد لتجنب أخطاء الرفع
+        uses: actions/checkout@v4
 
       - name: Setup Theos
         run: |
-          rm -rf ~/theos # هذا السطر بيمسح المجلد اللي مسبب لك خطأ 20 ثانية
+          rm -rf ~/theos
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
 
-      - name: Setup SDK
+      - name: Setup SDK (The Reliable Way)
         run: |
-          mkdir -p ~/theos/sdks
-          # تحميل رابط مباشر لتجنب خطأ فك الضغط التالف
-          curl -L "https://github.com/theos/sdks/raw/master/iPhoneOS14.4.sdk.tar.xz" -o ~/theos/sdks/sdk.tar.xz
-          tar -xJf ~/theos/sdks/sdk.tar.xz -C ~/theos/sdks
+          # هذي الطريقة تسحب الـ SDK كأنه مجلد عادي بدون مشاكل الضغط
+          git clone https://github.com/theos/sdks.git ~/theos/sdks
 
       - name: Build Package
         run: |
           export THEOS=~/theos
           export PATH=$THEOS/bin:$PATH
-          make package FINALPACKAGE=1
+          # هنا نقول له ابني باستخدام الـ SDK اللي نزلناه
+          make package FINALPACKAGE=1 SDKVERSION=14.4
           
       - name: Upload Result
-        uses: actions/upload-artifact@v4 # إصلاح خطأ الرفع اللي ظهر في أول فيديو
+        uses: actions/upload-artifact@v4
         with:
           name: Talal-Falcon-App
           path: packages/*.deb
