@@ -14,20 +14,22 @@ jobs:
           git clone --recursive https://github.com/theos/theos.git ~/theos
           echo "THEOS=~/theos" >> $GITHUB_ENV
 
-      - name: Setup ldid
+      - name: Install Tools
         run: |
-          # تثبيت الأداة من خلال الروابط الرسمية لـ Theos
           brew install ldid
+          # تثبيت أداة لإصلاح نهاية السطور
+          brew install dos2unix
 
-      - name: Setup SDK
+      - name: Fix Files and Setup SDK
         run: |
+          # إصلاح ملف control عشان ما يعطي Error 25
+          dos2unix control
           rm -rf ~/theos/sdks
           git clone https://github.com/theos/sdks.git ~/theos/sdks
 
       - name: Build Package
         run: |
           export THEOS=~/theos
-          # تأكدنا من إضافة مسار brew للملف
           export PATH="/usr/local/bin:/opt/homebrew/bin:$THEOS/bin:$PATH"
           make package FINALPACKAGE=1
           
